@@ -1,12 +1,15 @@
 # Linux
 
-## install zsh and omz
-zsh-omz-agnoster-fonts.sh
-
 ## checkout .dotfiles
+```bash
 mkdir ~/.config
 cd ~/.dotfiles/dotfiles
 stow .
+```
+
+## install zsh and omz
+zsh-omz-agnoster-fonts.sh
+
 
 ## symlink .zshrc to dotfiles
 ln -sf ~/.config/zshrc/.zshrc ~/.zshrc
