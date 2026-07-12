@@ -33,5 +33,13 @@ load(io.popen('starship init cmd'):read("*a"))()
 
 
 ## Install neovim
+`cd dotfiles`
+`mklink /d %LOCALAPPDATA%\nvim %CD%\nvim`
+`mklink /d %USERPROFILE%\.config\wezterm %CD%\wezterm`
 
+```
+- Install Microsoft Visual Studio 2022 (community edition is fine)
+- Open the developer tools command prompt
+- Open neovim. It will compile all the necessary stuff for treesitter. Wait for it to finish. Done.
+```
 ## 
