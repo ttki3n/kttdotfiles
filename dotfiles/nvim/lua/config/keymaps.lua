@@ -4,6 +4,6 @@
 
 
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Return normal mode" })
--- vim.keymap.set("i", "jj", "<Esc>", { desc = "Return normal mode" })
+vim.keymap.set("i", "jj", "<Esc>", { desc = "Return normal mode" })
 
 vim.keymap.set("c", "w!!", "w !sudo tee % > /dev/null", { desc = "Sudo Write" })
