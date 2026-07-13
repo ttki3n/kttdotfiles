@@ -31,11 +31,13 @@ os.setenv('STARSHIP_CONFIG', userProfile..'\\.config\\starship\\starship.toml')
 load(io.popen('starship init cmd'):read("*a"))()
 ```
 
-
 ## Install neovim
-`cd dotfiles`
-`mklink /d %LOCALAPPDATA%\nvim %CD%\nvim`
-`mklink /d %USERPROFILE%\.config\wezterm %CD%\wezterm`
+```cmd
+cd dotfiles
+mklink /d %LOCALAPPDATA%\nvim %CD%\nvim
+mklink /d %USERPROFILE%\.config\starship %CD%\starship
+mklink /d %USERPROFILE%\.config\wezterm %CD%\wezterm
+```
 
 ```
 - Install Microsoft Visual Studio 2022 (community edition is fine)
