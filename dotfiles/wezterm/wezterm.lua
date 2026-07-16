@@ -14,7 +14,6 @@ config.color_scheme = "Catppuccin Mocha"
 -- Appearance
 config.cursor_blink_rate = 0
 config.window_decorations = "RESIZE"
---config.enable_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 config.adjust_window_size_when_changing_font_size = false
 
@@ -69,6 +68,14 @@ config.keys = {
 	{ key = "X", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
 	{ key = "c", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
 	-- { key = "x",  mods = "LEADER", action = act.CloseCurrentPane { confirm = true } },
+	{ key = "l", mods = "ALT", action = wezterm.action.ShowLauncher },
+	{
+		key = "9",
+		mods = "ALT",
+		action = act.ShowLauncherArgs({
+			flags = "FUZZY|WORKSPACES",
+		}),
+	},
 }
 
 ---[ Key Tables
