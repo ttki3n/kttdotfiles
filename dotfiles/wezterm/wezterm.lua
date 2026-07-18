@@ -44,15 +44,13 @@ config.keys = {
 	{ key = "s", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	{ key = "v", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
-	{ key = "C", mods = "LEADER|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
 
 	-- Navigation
 	{ key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
 	{ key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
 	{ key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
 	{ key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
-
-	-- Resizing using key table
 
 	-- Tab Navigation (1-9)
 	{ key = "1", mods = "LEADER", action = act.ActivateTab(0) },
@@ -67,8 +65,7 @@ config.keys = {
 
 	-- Closing
 	{ key = "X", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
-	{ key = "c", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
-	-- { key = "x",  mods = "LEADER", action = act.CloseCurrentPane { confirm = true } },
+	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
 }
 
 ---[ Key Tables
