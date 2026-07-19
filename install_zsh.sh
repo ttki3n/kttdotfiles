@@ -5,13 +5,13 @@ set -e
 echo "Installing tools, zsh and plugins..."
 install_packages() {
   local missing=()
+  local failed=()
 
   for pkg in "$@"; do
     #if command -v "$pkg" >/dev/null 2>&1; then
     if dpkg -s "$pkg" >/dev/null 2>&1; then
       echo "✓ $pkg already installed, skipping..."
     else
-      echo "- $pkg will be installed."
       missing+=("$pkg")
     fi
   done
@@ -26,8 +26,22 @@ install_packages() {
   sudo apt update
 
   echo
-  echo "Installing: ${missing[*]}"
-  sudo apt install -y "${missing[@]}"
+  for pkg in "${missing[@]}"; do
+    echo "Installing $pkg..."
+
+    if sudo apt install -y "$pkg"; then
+      echo "✓ Installed $pkg"
+    else
+      echo "✗ Failed to install $pkg"
+      failed+=("$pkg")
+    fi
+  done
+
+  if ((${#failed[@]})); then
+    echo
+    echo "The following packages could not be installed:"
+    printf '  - %s\n' "${failed[@]}"
+  fi
 }
 
 install_packages git curl zsh \
@@ -80,4 +94,3 @@ clone_if_missing \
 clone_if_missing \
   "https://github.com/zsh-users/zsh-completions.git" \
   "$ZSH_CUSTOM/plugins/zsh-completions"
-
