@@ -16,3 +16,13 @@ function ... { Set-Location ../.. }
 function .... { Set-Location ../../.. }
 
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
+
+# Git, Lazygit
+function g {
+    if (-not (Get-Command lazygit -ErrorAction SilentlyContinue)) {
+        Write-Error "lazygit is not installed."
+        return
+    }
+
+    & lazygit @Args
+}
