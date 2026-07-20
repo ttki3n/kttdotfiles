@@ -7,10 +7,9 @@ if not exist "%USERPROFILE%\.config" (
 mklink /d "%LOCALAPPDATA%\nvim" "%~dp0nvim"
 
 mklink /d "%USERPROFILE%\.config\starship" "%~dp0starship"
-
 mklink /d "%USERPROFILE%\.config\wezterm" "%~dp0wezterm"
+mklink /d "%USERPROFILE%\.config\pwsh" "%~dp0pwsh"
 
-REM Yazi setup
 mklink /d "%APPDATA%\yazi\config" "%~dp0yazi"
 
 if not defined YAZI_FILE_ONE (

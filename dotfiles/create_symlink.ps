@@ -1,0 +1,71 @@
+# Requires -RunAsAdministrator
+
+$Dotfiles = $PSScriptRoot
+
+#--------------------------------------------------
+# Helpers
+#--------------------------------------------------
+
+function New-Symlink {
+    param(
+        [string]$Link,
+        [string]$Target
+    )
+
+    if (-not (Test-Path $Target)) {
+        Write-Warning "Target does not exist: $Target"
+        return
+    }
+
+    if (Test-Path $Link) {
+        Write-Host "✓ Exists: $Link"
+        return
+    }
+
+    New-Item -ItemType SymbolicLink -Path $Link -Target $Target | Out-Null
+
+    Write-Host "✓ Linked"
+    Write-Host "  $Link"
+    Write-Host "   -> $Target"
+}
+
+
+New-Item -ItemType Directory -Force -Path "$HOME\.config" | Out-Null
+
+$SymlinkList = @{
+    "$env:LOCALAPPDATA\nvim"    = "$Dotfiles\nvim"
+    "$HOME\.config\starship"    = "$Dotfiles\starship"
+    "$HOME\.config\wezterm"     = "$Dotfiles\wezterm"
+    "$HOME\.config\pwsh"        = "$Dotfiles\pwsh"
+    "$env:APPDATA\yazi\config"  = "$Dotfiles\yazi"
+}
+
+foreach ($Link in $SymlinkList.Keys) {
+    New-Symlink $Link $SymlinkList[$Link])
+}
+
+#--------------------------------------------------
+# Environment Variable
+#--------------------------------------------------
+
+$Current = [Environment]::GetEnvironmentVariable(
+    "YAZI_FILE_ONE",
+    "User"
+)
+
+if ([string]::IsNullOrWhiteSpace($Current)) {
+
+    [Environment]::SetEnvironmentVariable(
+        "YAZI_FILE_ONE",
+        "C:\Git\usr\bin\file.exe",
+        "User"
+    )
+
+    Write-Host "✓ YAZI_FILE_ONE has been set."
+
+} else {
+
+    Write-Host "✓ YAZI_FILE_ONE already exists:"
+    Write-Host "  $Current"
+
+}

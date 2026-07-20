@@ -5,6 +5,17 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+-- Detect operating system
+local is_windows = wezterm.target_triple:find("windows") ~= nil
+local is_linux = wezterm.target_triple:find("linux") ~= nil
+
+if is_windows then
+	config.default_prog = { "pwsh.exe", "-NoLogo" }
+elseif is_linux then
+	-- Explicitly set Linux shell (optional) or leave commented out to use system default
+	-- config.default_prog = { '/bin/bash' }
+end
+
 -- Font settings
 config.font_size = 13
 --config.line_height = 1.0
