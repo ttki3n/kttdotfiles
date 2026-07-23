@@ -90,6 +90,9 @@ alias ......="cd ../../../../.."
 # VI Mode!!!
 bindkey jj vi-cmd-mode
 
+# navigation
+fv() { file="$(fd -t f | fzf)" && [ -n "$file" ] && nvim "$file"; }
+
 . "$HOME/.local/bin/env"
 
 export NVM_DIR="$HOME/.nvm"

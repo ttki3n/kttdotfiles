@@ -50,6 +50,9 @@ install_packages git curl zsh \
   bat tree eza zoxide atuin \
   ripgrep fzf fd-find
 
+# Debian & Ubuntu
+ln -s $(which fdfind) ~/.local/bin/fd
+
 # Clone plugins
 echo "Setting ZSH_CUSTOM if not already set..."
 export ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.local/share/zsh}"
