@@ -85,7 +85,12 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
 
-# ???
+# Set up fzf key bindings and fuzzy completion
+export FZF_DEFAULT_OPTS="--layout=reverse --height 40% --border"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+source <(fzf --zsh)
 
 # VI Mode!!!
 bindkey jj vi-cmd-mode
