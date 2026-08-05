@@ -33,6 +33,9 @@ if (Test-Command "fzf") {
 
     # Tells fzf what to use when looking for folders (Alt+C)
     $env:FZF_ALT_C_COMMAND = 'fd --type d --hidden --follow --exclude .git'
+
+    # Set-PsFzfOption -TabExpansion $true
+    Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 }
 
 Set-Alias npp notepad++.exe
