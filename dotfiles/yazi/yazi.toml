@@ -7,20 +7,14 @@ max_width = 1200
 max_height = 1200
 
 [opener]
-open = [
-    { run = 'explorer.exe "%1"', desc = "Open with Windows Default", for = "windows" },
-]
-
 default = [
-    { run = 'cmd.exe /c start "" "%1"', orphan = true, for = "windows" },
-    { run = 'xdg-open "$1"',            orphan = true, for = "linux" },
-    { run = 'open "$1"',                orphan = true, for = "macos" },
+    { run = 'cmd.exe /c start "" "%s"', orphan = true, for = "windows" },
 ]
 
 [open]
-prepend_rules = [
+# prepend_rules = [
+# 	{ mime = "*", use = "default" },
+# ]
+append_rules = [
 	{ mime = "*", use = "default" },
-
-	# Multiple openers for a single rule
-	#{ url = "*.html", use = [ "open", "edit" ] },
 ]

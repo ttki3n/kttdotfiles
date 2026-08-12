@@ -69,6 +69,13 @@ function fv {
     }
 }
 
+function fnpp {
+    $file = fd -t f | fzf
+    if ($LASTEXITCODE -eq 0 -and $file) {
+        npp $file
+    }
+}
+
 function frg {
     Invoke-PsFzfRipgrep
 }

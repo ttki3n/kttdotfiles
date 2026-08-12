@@ -1,0 +1,7 @@
+[mgr]
+prepend_keymap = [
+  { on = "<F3>", run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim", for = "windows"},
+  { on = "<F4>", run = 'shell --block "notepad++.exe %h"', desc = "Open with notepad++"},
+  { on = "<F9>", run = 'shell "wt -w 0 new-tab pwsh"', desc = "Open pwsh", for = "windows"}
+]
+
