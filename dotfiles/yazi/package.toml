@@ -1,5 +1,7 @@
-[plugin]
-deps = []
+[[plugin.deps]]
+use = "MasouShizuka/projects"
+rev = "22a4006"
+hash = "195d1b8c8fc1a944883b5ce3d92d7ca7"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"
