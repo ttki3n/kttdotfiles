@@ -36,12 +36,13 @@ $SymlinkList = @{
     "$env:LOCALAPPDATA\nvim"    = "$Dotfiles\nvim"
     "$HOME\.config\starship"    = "$Dotfiles\starship"
     "$HOME\.config\wezterm"     = "$Dotfiles\wezterm"
-    "$HOME\.config\pwsh"        = "$Dotfiles\pwsh"
+    #"$HOME\.config\pwsh"        = "$Dotfiles\pwsh"
     "$env:APPDATA\yazi\config"  = "$Dotfiles\yazi"
+    "$env:LOCALAPPDATA\lazygit" = "$Dotfiles\lazygit"
 }
 
 foreach ($Link in $SymlinkList.Keys) {
-    New-Symlink $Link $SymlinkList[$Link])
+    New-Symlink $Link $SymlinkList[$Link]
 }
 
 #--------------------------------------------------
