@@ -22,9 +22,9 @@ require("projects"):setup({
 		},
 	},
 	save = {
-		method = "yazi", -- yazi | lua
-		yazi_load_event = "@projects-load", -- event name when loading projects in `yazi` method
-		lua_save_path = "", -- path of saved file in `lua` method, comment out or assign explicitly
+		method = "lua", -- yazi | lua
+		-- yazi_load_event = "@projects-load", -- event name when loading projects in `yazi` method
+		-- lua_save_path = "", -- path of saved file in `lua` method, comment out or assign explicitly
 		-- default value:
 		-- windows: "%APPDATA%/yazi/state/projects.json"
 		-- unix: "~/.local/state/yazi/projects.json"
