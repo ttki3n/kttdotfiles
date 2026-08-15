@@ -1,8 +1,11 @@
 [mgr]
 prepend_keymap = [
   { on = "<F3>", run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim", for = "windows"},
-  { on = "<F4>", run = 'shell --orphan "notepad++.exe %h"', desc = "Open with notepad++"},
-  { on = "<F9>", run = 'shell "wt -w 0 new-tab pwsh"', desc = "Open pwsh", for = "windows"},
+  { on = "<F4>", run = 'shell "notepad++.exe %h" --orphan', desc = "Open with notepad++"},
+  { on = "<F10>", run = 'shell "wt -w 0 new-tab pwsh"', desc = "Open pwsh", for = "windows"},
+  { on = "<F9>", run = 'shell "wezterm cli spawn --cwd ." --orphan', desc = "Open new WezTerm tab here"},
+
+  # Plugin Projects
   { on = ["P", "s"], run = "plugin projects save", desc = "Save current project" },
   { on = ["P", "l"], run = "plugin projects load", desc = "Load project" },
   { on = ["P", "P"], run = "plugin projects load_last", desc = "Load last project" },

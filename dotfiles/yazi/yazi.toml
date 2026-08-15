@@ -9,7 +9,7 @@ show_symlink = true
 
 [opener]
 default = [
-    { run = 'cmd.exe /c start "" "%s"', orphan = true, for = "windows" },
+    { run = 'start "" %s1', orphan = true, for = "windows" },
 ]
 
 [open]
