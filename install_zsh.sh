@@ -51,7 +51,7 @@ install_packages git curl zsh \
   ripgrep fzf fd-find
 
 # Debian & Ubuntu
-ln -s $(which fdfind) ~/.local/bin/fd
+ln -sf $(which fdfind) ~/.local/bin/fd
 
 # Clone plugins
 echo "Setting ZSH_CUSTOM if not already set..."
