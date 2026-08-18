@@ -1,12 +1,25 @@
+# zmodload zsh/zprof
 # ???
-#setopt prompt_subst
-#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-#autoload bashcompinit && bashcompinit
 
-# Completion
-fpath+=~/.local/share/zsh/plugins/zsh-completions/src
+# Reevaluate the prompt string each time it's displaying a prompt
+setopt prompt_subst
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+autoload bashcompinit && bashcompinit
 autoload -Uz compinit
 compinit
+# Completion
+#
+
+fpath+=~/.local/share/zsh/plugins/zsh-completions/src
+
+# autoload -Uz compinit
+# # Only regenerate zcompdump if it is older than 24 hours
+# if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qNmh+24) ]]; then
+#   compinit
+# else
+#   compinit -C
+# fi
+# # compinit
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
@@ -84,13 +97,13 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
-
 # Set up fzf key bindings and fuzzy completion
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40% --border"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-source <(fzf --zsh)
+# source <(fzf --zsh)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # VI Mode!!!
 bindkey jj vi-cmd-mode
@@ -100,9 +113,9 @@ fv() { file="$(fd -t f | fzf)" && [ -n "$file" ] && nvim "$file"; }
 
 . "$HOME/.local/bin/env"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
@@ -110,3 +123,4 @@ eval "$(atuin init zsh)"
 
 # Must be the last
 source ~/.local/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# zprof
