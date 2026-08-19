@@ -109,6 +109,7 @@ export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 bindkey jj vi-cmd-mode
 
 # navigation
+fcd() { cd "$(fd -t d | fzf)" && l; }
 fv() { file="$(fd -t f | fzf)" && [ -n "$file" ] && nvim "$file"; }
 
 . "$HOME/.local/bin/env"

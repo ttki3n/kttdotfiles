@@ -62,6 +62,14 @@ function g {
 }
 
 # Navigation
+function fcd {
+    $dir = fd -t d . | fzf
+    if ($dir) {
+        Set-Location $dir
+        l
+    }
+}
+
 function fv {
     $file = fd -t f | fzf
     if ($LASTEXITCODE -eq 0 -and $file) {
