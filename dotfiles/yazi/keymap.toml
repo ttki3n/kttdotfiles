@@ -1,7 +1,11 @@
 [mgr]
 prepend_keymap = [
-  { on = "<F3>", run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim", for = "windows"},
-  { on = "<F4>", run = 'shell "notepad++.exe %h" --orphan', desc = "Open with notepad++"},
+  { on = ["<F2>", "g"], run = 'shell --orphan -- wezterm cli spawn --cwd "%d" -- lazygit', desc = "Lazygit in WezTerm"},
+  { on = ["<F2>", "G"], run = 'shell --orphan -- wt.exe -w 0 new-tab -d "%d" lazygit', desc = "Lazygit in Windows Terminal"},
+ 
+  { on = ["<F4>", "v"], run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim", for = "windows"},
+  { on = ["<F4>", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
+
   { on = "<F10>", run = 'shell "wt -w 0 new-tab pwsh"', desc = "Open pwsh", for = "windows"},
   { on = "<F9>", run = 'shell "wezterm cli spawn --cwd ." --orphan', desc = "Open new WezTerm tab here"},
 
@@ -14,3 +18,16 @@ prepend_keymap = [
   { on = ["P", "m"], run = "plugin projects 'merge current'", desc = "Merge current tab to other projects" },
   { on = ["P", "M"], run = "plugin projects 'merge all'", desc = "Merge current project to other projects" },
 ]
+
+# # F2 + G → lazygit
+# [[mgr.prepend_keymap]]
+# on = [ "<F2>", "G" ]
+# run = 'shell --orphan -- powershell.exe -NoProfile -File "~/.config/yazi/scripts/terminal.ps1" "lazygit" "%d"'
+# desc = "Open lazygit in new terminal tab"
+#
+#
+# # F2 + N → nvim
+# [[mgr.prepend_keymap]]
+# on = [ "<F2>", "N" ]
+# run = 'shell --orphan -- powershell.exe -NoProfile -File "~/.config/yazi/scripts/terminal.ps1" "nvim" "%d"'
+# desc = "Open nvim in new terminal tab"

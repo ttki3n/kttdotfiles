@@ -1,2 +1,38 @@
 git:
   autoFetch: false
+
+customCommands:
+- key: "<f2>"
+  description: "Git workflow shortcuts"
+  commandMenu:
+    - key: "m"
+      context: "global"
+      description: "Update master from origin"
+      command: "git fetch origin master:master"
+
+    - key: "b"
+      context: "global"
+      description: "Create branch from master"
+      prompts:
+        - type: "input"
+          title: "New branch name:"
+          key: "BranchName"
+      command: "git branch {{.Form.BranchName | quote}} master"
+
+    - key: "n"
+      context: "global"
+      description: "Create branch from master and checkout"
+      prompts:
+        - type: "input"
+          title: "New branch name:"
+          key: "BranchName"
+      command: "git checkout master -b {{.Form.BranchName}}"
+
+    - key: "f"
+      context: "global"
+      description: "Fetch master + create branch"
+      prompts:
+        - type: "input"
+          title: "New branch name:"
+          key: "BranchName"
+      command: "git fetch origin master:master && git branch {{.Form.BranchName | quote}} master"

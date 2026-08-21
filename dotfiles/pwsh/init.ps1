@@ -70,6 +70,13 @@ function fcd {
     }
 }
 
+function fcf {
+    $file = fd -t f | fzf 
+    if ($file) {
+        Set-Location (Split-Path -Parent $file)
+    }
+}
+
 function fv {
     $file = fd -t f | fzf
     if ($LASTEXITCODE -eq 0 -and $file) {
