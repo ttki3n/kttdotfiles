@@ -3,7 +3,8 @@ prepend_keymap = [
   { on = ["<F2>", "g"], run = 'shell --orphan -- wezterm cli spawn --cwd "%d" -- lazygit', desc = "Lazygit in WezTerm"},
   { on = ["<F2>", "G"], run = 'shell --orphan -- wt.exe -w 0 new-tab -d "%d" lazygit', desc = "Lazygit in Windows Terminal"},
  
-  { on = ["<F4>", "v"], run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim", for = "windows"},
+  { on = ["<F4>", "v"], run = 'shell --orphan -- wezterm cli spawn -- nvim "%h"', desc = "Open with nvim"},
+  { on = ["<F4>", "V"], run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim", for = "windows"},
   { on = ["<F4>", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
 
   { on = "<F10>", run = 'shell "wt -w 0 new-tab pwsh"', desc = "Open pwsh", for = "windows"},

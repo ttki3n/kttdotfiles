@@ -56,10 +56,11 @@ export STARSHIP_CONFIG=~/.config/starship/starship.toml
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias v="nvim"
+alias g="lazygit"
 
 alias cls=clear
 alias la=tree
-alias cat=batcat
+alias cat=bat
 
 # Eza
 alias l="eza -l --icons --git -a"
