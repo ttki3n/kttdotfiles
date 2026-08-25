@@ -113,6 +113,14 @@ bindkey jj vi-cmd-mode
 fcd() { cd "$(fd -t d | fzf)" && l; }
 fv() { file="$(fd -t f | fzf)" && [ -n "$file" ] && nvim "$file"; }
 
+function y() {
+	local tmp cwd; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
+	command rm -f -- "$tmp"
+}
+
 . "$HOME/.local/bin/env"
 
 # export NVM_DIR="$HOME/.nvm"
