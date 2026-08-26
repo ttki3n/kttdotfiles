@@ -2,6 +2,7 @@
 prepend_keymap = [
   { on = ["<F2>", "g"], run = 'shell --orphan -- wezterm cli spawn --cwd "%d" -- lazygit', desc = "Open Lazygit"},
   { on = ["<C-F2>", "g"], run = 'shell --orphan -- wt.exe -w 0 new-tab -d "%d" lazygit', desc = "Open Lazygit"},
+  { on = ["<F2>", "t"], run = 'shell --block -- tig "%h"', desc = "Open Tig"},
  
   { on = ["<F2>", "v"], run = 'shell --orphan -- wezterm cli spawn -- nvim "%h"', desc = "Open with nvim"},
   { on = ["<C-F2>", "v"], run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim"},
