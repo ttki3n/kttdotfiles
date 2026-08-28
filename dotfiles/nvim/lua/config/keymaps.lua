@@ -13,12 +13,6 @@ vim.keymap.set("n", "<leader>sf", function()
   })
 end, { desc = "Grep (Current Buffer Dir)" })
 
-vim.keymap.set("n", "<leader><leader>", function()
-  Snacks.picker.files({
-    cwd = vim.fn.getcwd(),
-  })
-end, { desc = "Find Files (CWD)" })
-
 vim.keymap.set("n", "<leader>sF", function()
   -- Gathers all directories within your current workspace root
   local workspace_path = vim.fn.getcwd()
@@ -35,3 +29,14 @@ vim.keymap.set("n", "<leader>sF", function()
     end
   end)
 end, { desc = "Grep in Selected Folder..." })
+
+vim.keymap.set("n", "<leader><leader>", function()
+  local bufname = vim.api.nvim_buf_get_name(0)
+
+  if bufname ~= "" then
+    local dir = vim.fn.fnamemodify(bufname, ":h")
+    Snacks.picker.files({ cwd = dir, hidden = true })
+  else
+    Snacks.picker.files()
+  end
+end, { desc = "Find Files (Buffer Dir)" })

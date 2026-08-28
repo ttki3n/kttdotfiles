@@ -34,9 +34,9 @@ customCommands:
         command: "git checkout master -b {{.Form.BranchName}}"
       - key: "f"
         context: "global"
-        description: "Fetch master + create branch"
+        description: "Fetch master + create branch from master + checkout"
         prompts:
           - type: "input"
             title: "New branch name:"
             key: "BranchName"
-        command: "git fetch origin master:master && git branch {{.Form.BranchName | quote}} master"
+        command: "git fetch origin master:master && git checkout master -b {{.Form.BranchName}}"
