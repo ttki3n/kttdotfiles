@@ -2,13 +2,16 @@
 function Test-Command($Name) {
     $null -ne (Get-Command $Name -ErrorAction SilentlyContinue)
 }
-
+# $sw = [System.Diagnostics.Stopwatch]::StartNew()
 # Prompt config
 # if (Test-Command "starship") {
 #     Invoke-Expression (& starship init powershell)
 # }
 Invoke-Expression (&starship init powershell)
-$ENV:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
+# PS does not support right prompt (T_T), therefore using session variable
+$ENV:STARSHIP_CONFIG = "$HOME\.config\starship\starship_ps.toml"
+# Write-Host ": $($sw.ElapsedMilliseconds)ms - starship"
+# $sw.Restart()
 
 if (Test-Command "zoxide") {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
@@ -17,6 +20,9 @@ if (Test-Command "zoxide") {
 if (Test-Command "atuin") {
     Invoke-Expression (& { (atuin init powershell | Out-String) })
 }
+
+# Write-Host ": $($sw.ElapsedMilliseconds)ms - atuin"
+# $sw.Restart()
 
 if (Test-Command "fzf") {
     # Import the fzf module
@@ -37,6 +43,8 @@ if (Test-Command "fzf") {
     # Set-PsFzfOption -TabExpansion $true
     Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 }
+# Write-Host ": $($sw.ElapsedMilliseconds)ms - fzf"
+# $sw.Restart()
 
 Set-Alias npp notepad++.exe
 Set-Alias v nvim
@@ -79,7 +87,7 @@ function fcd {
     $dir = fd -t d . | fzf
     if ($dir) {
         Set-Location $dir
-        ls
+        Get-ChildItem
     }
 }
 
@@ -107,3 +115,5 @@ function fnpp {
 function frg {
     Invoke-PsFzfRipgrep
 }
+# Write-Host ": $($sw.ElapsedMilliseconds)ms - alias, fucntion, etc."
+# $sw.Restart()

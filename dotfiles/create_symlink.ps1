@@ -36,6 +36,7 @@ $SymlinkList = @{
     "$env:LOCALAPPDATA\nvim"    = "$Dotfiles\nvim"
     "$HOME\.config\starship"    = "$Dotfiles\starship"
     "$HOME\.config\wezterm"     = "$Dotfiles\wezterm"
+    "$HOME\.tigrc"              = "$Dotfiles\tig\config\.tigrc"
     #"$HOME\.config\pwsh"        = "$Dotfiles\pwsh"
     "$env:APPDATA\yazi\config"  = "$Dotfiles\yazi"
     "$env:LOCALAPPDATA\lazygit" = "$Dotfiles\lazygit"
@@ -70,3 +71,6 @@ if ([string]::IsNullOrWhiteSpace($Current)) {
     Write-Host "  $Current"
 
 }
+
+#[Environment]::SetEnvironmentVariable("TIG_USER_CONFIG", "$HOME\.config\tig\config", "User")
+#[Environment]::SetEnvironmentVariable("TIGRC_USER", "$HOME\.config\tig\config", "User")

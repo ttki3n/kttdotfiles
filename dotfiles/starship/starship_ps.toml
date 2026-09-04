@@ -1,12 +1,31 @@
 add_newline = false
 
 # A minimal left prompt
-format = """$directory$character"""
+# format = """$directory$character"""
+format = """
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$python\
+$lua\
+$nodejs\
+$golang\
+$haskell\
+$rust\
+$ruby\
+$aws\
+$docker_context\
+$jobs\
+$cmd_duration\
+$line_break\
+$character"""
+
 palette = "catppuccin_mocha"
 
 # move the rest of the prompt to the right
-right_format = """$all"""
-command_timeout = 2500
+# right_format = """$all"""
+command_timeout = 1000
 
 [character]
 success_symbol = "[󰄛 ➜](bold green)"
@@ -16,6 +35,9 @@ vicmd_symbol = "[N >>>](bold red)"
 [directory]
 style = "fg:peach"
 format = "[$path ]($style)"
+truncation_length = 3
+truncation_symbol = '…/'
+truncate_to_repo = false
 
 [directory.substitutions]
 #'~/tests/starship-custom' = 'work-project'
@@ -27,6 +49,9 @@ format = "[$path ]($style)"
 [git_branch]
 style = "fg:pink"
 format = '[$symbol$branch(:$remote_branch)]($style)'
+
+[fill]
+symbol = ' '
 
 [aws]
 format = '[$symbol(profile: "$profile" )(\(region: $region\) )]($style)'

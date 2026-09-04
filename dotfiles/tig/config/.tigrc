@@ -1,0 +1,17 @@
+bind generic <F2> :toggle diff-options --full-diff
+
+#set vertical-split = yes
+#
+## Show line numbers in main and diff views
+#set line-graphics = utf-8
+#set show-line-numbers = yes
+#
+## Use 'g' to jump to the top and 'G' to jump to the bottom of views
+#bind generic g move-first-line
+#bind generic G move-last-line
+#
+## Brighten UI components for better readability
+#color main-remote      cyan    default
+#color main-tracked     yellow  default
+#color main-tag         magenta default
+#color main-local-tag   magenta default
