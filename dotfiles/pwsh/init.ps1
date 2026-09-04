@@ -50,6 +50,8 @@ function ltree { eza --tree --level=2  --icons --git }
 function .. { Set-Location .. }
 function ... { Set-Location ../.. }
 function .... { Set-Location ../../.. }
+function ..... { Set-Location ../../../.. }
+function ...... { Set-Location ../../../../.. }
 
 # Git, Lazygit
 function g {
@@ -77,7 +79,7 @@ function fcd {
     $dir = fd -t d . | fzf
     if ($dir) {
         Set-Location $dir
-        l
+        ls
     }
 }
 
