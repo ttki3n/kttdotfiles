@@ -1,3 +1,23 @@
+return {
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = function(_, opts)
+      opts.sections.lualine_c = {
+        function()
+          return vim.fn.expand("%:p")
+        end,
+      }
+    end,
+  },
+
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "catppuccin-mocha",
+    },
+  },
+}
+
 -- return {
 --   {
 --     "nvim-lualine/lualine.nvim",
@@ -23,15 +43,3 @@
 --     end,
 --   },
 -- }
-return {
-  {
-    "nvim-lualine/lualine.nvim",
-    opts = function(_, opts)
-      opts.sections.lualine_c = {
-        function()
-          return vim.fn.expand("%:p")
-        end,
-      }
-    end,
-  },
-}

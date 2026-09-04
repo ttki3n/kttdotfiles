@@ -121,7 +121,8 @@ function y() {
 	command rm -f -- "$tmp"
 }
 
-. "$HOME/.local/bin/env"
+source "$HOME/.local/bin/env"
+source "$HOME/.atuin/bin/env"
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
