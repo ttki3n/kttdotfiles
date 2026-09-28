@@ -1,13 +1,10 @@
 git:
   autoFetch: false
-
 gui:
   screenMode: "half"
-
 keybinding:
   universal:
     nextScreenMode: "<f1>"
-
 customCommands:
   - key: "<f2>"
     description: "Git workflow shortcuts"
@@ -40,3 +37,18 @@ customCommands:
             title: "New branch name:"
             key: "BranchName"
         command: "git fetch origin master:master && git checkout master -b {{.Form.BranchName}}"
+      - key: "c"
+        context: "subCommits"
+        description: "Cherry-pick with -x flag"
+        command: "git cherry-pick -x {{ .SelectedCommit.Sha }}"
+        loadingText: "Cherry-picking ..."
+        # output: terminal
+      - key: "C"
+        context: "subCommits"
+        description: "Cherry-pick merge commit (-m 1)"
+        prompts:
+          - type: "input"
+            title: "Parent number (usually 1):"
+            initialValue: "1"
+            key: "ParentNumber"
+        command: "git cherry-pick -m {{.Form.ParentNumber}} {{.SelectedCommit.Sha}}"
