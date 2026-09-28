@@ -16,6 +16,17 @@ return {
       colorscheme = "catppuccin-mocha",
     },
   },
+  {
+    "akinsho/bufferline.nvim",
+    opts = function()
+      local palette = require("catppuccin.palettes").get_palette("mocha")
+
+      vim.api.nvim_set_hl(0, "BufferLineBufferSelected", {
+        fg = palette.peach,
+        bold = true,
+      })
+    end,
+  },
 }
 
 -- return {
