@@ -32,7 +32,7 @@ if (Test-Command "fzf") {
     $env:FZF_DEFAULT_OPTS = "--layout=reverse --height 40% --border"
 
     # Tells fzf to use fd by default for files
-    $env:FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --exclude .git'
+    $env:FZF_DEFAULT_COMMAND = 'fd --type f --hidden -I --follow --exclude .git'
 
     # Applies the same lightning-fast fd behavior specifically to Ctrl+T
     $env:FZF_CTRL_T_COMMAND = $env:FZF_DEFAULT_COMMAND

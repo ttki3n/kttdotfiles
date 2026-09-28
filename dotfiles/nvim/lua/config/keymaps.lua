@@ -40,3 +40,29 @@ vim.keymap.set("n", "<leader><leader>", function()
     Snacks.picker.files()
   end
 end, { desc = "Find Files (Buffer Dir)" })
+
+-- Make * search for the word under cursor WITHOUT jumping forward
+-- vim.keymap.set("n", "*", "*N", { desc = "Search word under cursor without jumping" })
+-- Directly set the search register to the word under the cursor without moving
+vim.keymap.set("n", "*", function()
+  local word = vim.fn.expand("<cword>") -- Get word under cursor
+  vim.fn.setreg("/", "\\<" .. word .. "\\>") -- Put it in the search register with boundaries
+  vim.cmd("set hlsearch") -- Turn on highlighting
+end, { desc = "Search word under cursor without jumping" })
+
+-- In VISUAL mode: Pressing * searches for exactly what you highlighted
+-- without adding word boundaries and without jumping away!
+vim.keymap.set("v", "*", function()
+  -- Save current selection to a temporary variable
+  local old_reg = vim.fn.getreg('"')
+  local old_regtype = vim.fn.getregtype('"')
+
+  -- Copy selection, update search register with literal text, restore clipboard
+  vim.cmd('normal! ""y')
+  local text = vim.fn.escape(vim.fn.getreg('"'), [[\/]])
+  vim.fn.setreg("/", text)
+  vim.fn.setreg('"', old_reg, old_regtype)
+
+  -- Turn on highlighting
+  vim.cmd("set hlsearch")
+end, { desc = "Search selection without jumping" })

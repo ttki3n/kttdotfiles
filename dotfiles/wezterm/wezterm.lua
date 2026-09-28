@@ -27,6 +27,7 @@ config.cursor_blink_rate = 0
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.adjust_window_size_when_changing_font_size = false
+config.use_fancy_tab_bar = false
 
 config.initial_cols = 120
 config.initial_rows = 30
@@ -86,7 +87,26 @@ wezterm.on("update-right-status", function(window, pane)
 		name = "TABLE: " .. name
 	end
 	window:set_right_status(name or "")
+-- Get the current date and time
+  local date = wezterm.strftime('%Y-%m-%d %H:%M:%S')
+
+  -- Set the right status text
+  window:set_right_status(date)
 end)
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+  local title = tab.active_pane.title
+  if tab.active_pane.is_zoomed then
+    title = wezterm.nerdfonts.oct_zoom_in .. " " .. title
+  end
+  local idx = tab.tab_index + 1
+
+  -- Format index with custom appearance, e.g., "[1] tab_title"
+  return {
+    { Text = string.format('%d: %s ', idx, title) },
+  }
+end)
+
 config.key_tables = {
 
 	resize_panel = {
