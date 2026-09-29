@@ -75,23 +75,18 @@ config.keys = {
 	{ key = "9", mods = "LEADER", action = act.ActivateTab(8) },
 
 	-- Closing
-	{ key = "X", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
+	-- { key = "X", mods = "CTRL|SHIFT", action = act.ActivateCopyMode },
 	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
 }
 
----[ Key Tables
--- Show which key table is active in the status area
 wezterm.on("update-right-status", function(window, pane)
-	local name = window:active_key_table()
-	if name then
-		name = "TABLE: " .. name
-	end
-	window:set_right_status(name or "")
--- Get the current date and time
-  local date = wezterm.strftime('%Y-%m-%d %H:%M:%S')
-
-  -- Set the right status text
-  window:set_right_status(date)
+  local name = window:active_key_table()
+  if name then
+    window:set_right_status('TABLE: ' .. name)
+  else
+    local date = wezterm.strftime('%Y-%m-%d %H:%M:%S')
+    window:set_right_status(date)
+  end
 end)
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)

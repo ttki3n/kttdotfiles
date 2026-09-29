@@ -49,11 +49,11 @@ if (Test-Command "fzf") {
 Set-Alias npp notepad++.exe
 Set-Alias v nvim
 
-function ll { Get-ChildItem }
-function la { Get-ChildItem -Force }
-function l { eza -l --icons --git -a }
-function lt { eza --tree --level=2 --long --icons --git }
-function ltree { eza --tree --level=2  --icons --git }
+function ll { Get-ChildItem @args }
+function la { Get-ChildItem -Force @args }
+function l { eza -l --icons --git -a @args }
+function lt { eza --tree --level=2 --long --icons --git @args }
+function ltree { eza --tree --level=2  --icons --git @args }
 
 function .. { Set-Location .. }
 function ... { Set-Location ../.. }
