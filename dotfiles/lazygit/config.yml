@@ -2,6 +2,8 @@ git:
   autoFetch: false
 gui:
   screenMode: "half"
+os:
+  editPreset: 'nvim'
 keybinding:
   universal:
     nextScreenMode: "<f1>"

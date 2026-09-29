@@ -103,7 +103,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
   -- Format index with custom appearance, e.g., "[1] tab_title"
   return {
-    { Text = string.format('%d: %s ', idx, title) },
+    { Text = string.format(' [%d] %s ', idx, title) },
   }
 end)
 
