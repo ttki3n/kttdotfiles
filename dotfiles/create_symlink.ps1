@@ -40,6 +40,8 @@ $SymlinkList = @{
     #"$HOME\.config\pwsh"        = "$Dotfiles\pwsh"
     "$env:APPDATA\yazi\config"  = "$Dotfiles\yazi"
     "$env:LOCALAPPDATA\lazygit" = "$Dotfiles\lazygit"
+    "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" =
+        "$Dotfiles\windowsterminal\settings.json"
 }
 
 foreach ($Link in $SymlinkList.Keys) {
