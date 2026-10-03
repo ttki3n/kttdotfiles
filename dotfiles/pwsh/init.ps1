@@ -48,7 +48,7 @@ if (Test-Command "fzf") {
 
 Set-Alias npp notepad++.exe
 Set-Alias v nvim
-
+function er { explorer.exe @args }
 function ll { Get-ChildItem @args }
 function la { Get-ChildItem -Force @args }
 function l { eza -l --icons --git -a @args }

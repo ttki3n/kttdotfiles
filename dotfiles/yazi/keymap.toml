@@ -1,25 +1,25 @@
 [mgr]
 prepend_keymap = [
-  { on = ["<F2>", "g"], run = 'shell --orphan -- wezterm cli spawn --cwd "%d" -- lazygit', desc = "Open Lazygit"},
-  { on = ["<C-F2>", "g"], run = 'shell --orphan -- wt.exe -w 0 new-tab -d "%d" lazygit', desc = "Open Lazygit"},
-  { on = ["<F2>", "t"], run = 'shell --block -- tig "%h"', desc = "Open Tig"},
+{ on = ["<F2>", "g"], run = 'shell --orphan -- wezterm cli spawn --cwd "%d" -- lazygit', desc = "Open Lazygit"},
+{ on = ["<F2>", "t"], run = 'shell --block -- tig "%h"', desc = "Open Tig"},
+{ on = ["<F2>", "v"], run = 'shell --orphan -- wezterm cli spawn -- nvim "%h"', desc = "Open with nvim"},
+{ on = ["<F2>", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
+{ on = "<F9>",        run = 'shell --orphan -- wezterm cli spawn --cwd .', desc = "Open new WezTerm tab here"},
  
-  { on = ["<F2>", "v"], run = 'shell --orphan -- wezterm cli spawn -- nvim "%h"', desc = "Open with nvim"},
-  { on = ["<C-F2>", "v"], run = 'shell "wt -w 0 new-tab nvim %h"', desc = "Open with nvim"},
-  { on = ["<F2>", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
-  { on = ["<C-F2>", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
+{ on = ["e", "g"], run = 'shell --orphan -- wt -w 0 new-tab -d "%d" -- lazygit', desc = "Open Lazygit"},
+{ on = ["e", "t"], run = 'shell --orphan -- wt -w 0 new-tab -d "%d" -- tig "%h"', desc = "Open Tig in new tab"},
+{ on = ["e", "v"], run = 'shell -- wt -w 0 new-tab -- nvim %h', desc = "Open with nvim"},
+{ on = ["e", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
+{ on = ["e", "s"], run = 'shell -- wt -w 0 new-tab', desc = "Open pwsh", for = "windows"},
 
-  { on = "<C-F9>", run = 'shell "wt -w 0 new-tab pwsh"', desc = "Open pwsh", for = "windows"},
-  { on = "<F9>", run = 'shell "wezterm cli spawn --cwd ." --orphan', desc = "Open new WezTerm tab here"},
-
-  # Plugin Projects
-  { on = ["P", "s"], run = "plugin projects save", desc = "Save current project" },
-  { on = ["P", "l"], run = "plugin projects load", desc = "Load project" },
-  { on = ["P", "P"], run = "plugin projects load_last", desc = "Load last project" },
-  { on = ["P", "d"], run = "plugin projects delete", desc = "Delete project" },
-  { on = ["P", "D"], run = "plugin projects delete_all", desc = "Delete all projects" },
-  { on = ["P", "m"], run = "plugin projects 'merge current'", desc = "Merge current tab to other projects" },
-  { on = ["P", "M"], run = "plugin projects 'merge all'", desc = "Merge current project to other projects" },
+# Plugin Projects
+{ on = ["P", "s"], run = "plugin projects save", desc = "Save current project" },
+{ on = ["P", "l"], run = "plugin projects load", desc = "Load project" },
+{ on = ["P", "P"], run = "plugin projects load_last", desc = "Load last project" },
+{ on = ["P", "d"], run = "plugin projects delete", desc = "Delete project" },
+{ on = ["P", "D"], run = "plugin projects delete_all", desc = "Delete all projects" },
+{ on = ["P", "m"], run = "plugin projects 'merge current'", desc = "Merge current tab to other projects" },
+{ on = ["P", "M"], run = "plugin projects 'merge all'", desc = "Merge current project to other projects" },
 ]
 
 # # F2 + G → lazygit

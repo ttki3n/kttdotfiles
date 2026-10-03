@@ -54,3 +54,8 @@ customCommands:
             initialValue: "1"
             key: "ParentNumber"
         command: "git cherry-pick -m {{.Form.ParentNumber}} {{.SelectedCommit.Sha}}"
+      - key: "o"
+        context: "commits, subCommits"
+        description: "Open all files in commit"
+        command: "git diff-tree --no-commit-id --name-only -r -z {{.SelectedCommit.Hash}} | xargs -0 nvim"
+        output: terminal
