@@ -27,6 +27,16 @@ return {
       })
     end,
   },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      terminal = {
+        win = {
+          style = "float", -- or position = "float" depending on your snacks version
+        },
+      },
+    },
+  }
 }
 
 -- return {
