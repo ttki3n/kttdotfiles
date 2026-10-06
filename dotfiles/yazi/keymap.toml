@@ -1,10 +1,12 @@
 [mgr]
 prepend_keymap = [
-{ on = ["<F2>", "g"], run = 'shell --orphan -- wezterm cli spawn --cwd "%d" -- lazygit', desc = "Open Lazygit"},
-{ on = ["<F2>", "t"], run = 'shell --block -- tig "%h"', desc = "Open Tig"},
-{ on = ["<F2>", "v"], run = 'shell --orphan -- wezterm cli spawn -- nvim "%h"', desc = "Open with nvim"},
-{ on = ["<F2>", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
-{ on = "<F9>",        run = 'shell --orphan -- wezterm cli spawn --cwd .', desc = "Open new WezTerm tab here"},
+# re-map W key so can use w
+{ on = "W", run = "tasks:show", desc = "Show task manager" },
+{ on = ["w", "g"], run = 'shell --orphan -- wezterm cli spawn --cwd "%d" -- lazygit', desc = "Open Lazygit"},
+{ on = ["w", "t"], run = 'shell --block -- tig "%h"', desc = "Open Tig"},
+{ on = ["w", "v"], run = 'shell --orphan -- wezterm cli spawn -- nvim "%h"', desc = "Open with nvim"},
+{ on = ["w", "n"], run = 'shell --orphan -- notepad++.exe "%h"', desc = "Open with Notepad++"},
+{ on = ["w", "s"], run = 'shell --orphan -- wezterm cli spawn --cwd .', desc = "Open new WezTerm tab here"},
  
 { on = ["e", "g"], run = 'shell --orphan -- wt -w 0 new-tab -d "%d" -- lazygit', desc = "Open Lazygit"},
 { on = ["e", "t"], run = 'shell --orphan -- wt -w 0 new-tab -d "%d" -- tig "%h"', desc = "Open Tig in new tab"},

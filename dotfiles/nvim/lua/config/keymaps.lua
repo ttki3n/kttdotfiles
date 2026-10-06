@@ -5,6 +5,14 @@
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Return normal mode" })
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Return normal mode" })
 
+vim.keymap.set("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })
+vim.keymap.set("i", "<C-e>", "<End>", { desc = "move end of line" })
+-- vim.keymap.set("i", "<C-h>", "<Left>", { desc = "move left" })
+-- vim.keymap.set("i", "<C-l>", "<Right>", { desc = "move right" })
+-- vim.keymap.set("i", "<C-j>", "<Down>", { desc = "move down" })
+-- vim.keymap.set("i", "<C-k>", "<Up>", { desc = "move up" })
+vim.keymap.set("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
+
 vim.keymap.set("c", "w!!", "w !sudo tee % > /dev/null", { desc = "Sudo Write" })
 
 vim.keymap.set("n", "<leader>sf", function()
