@@ -15,6 +15,10 @@ vim.keymap.set("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" 
 
 vim.keymap.set("c", "w!!", "w !sudo tee % > /dev/null", { desc = "Sudo Write" })
 
+vim.keymap.set("n", "<leader>z", function()
+  Snacks.zen.zoom()
+end, { desc = "Toggle Zoom" })
+
 vim.keymap.set("n", "<leader>sf", function()
   Snacks.picker.grep({
     cwd = vim.fn.expand("%:p:h"),

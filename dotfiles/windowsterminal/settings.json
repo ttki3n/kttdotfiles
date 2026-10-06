@@ -151,7 +151,10 @@
             "id": "Terminal.PasteFromClipboard",
             "keys": "ctrl+v"
         },
-
+        {
+            "id": null,
+            "keys": "f11"
+        },
         {
             "id": null,
             "keys": "ctrl+tab"
