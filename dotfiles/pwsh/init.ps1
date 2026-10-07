@@ -48,6 +48,32 @@ if (Test-Command "fzf") {
 
 Set-Alias npp notepad++.exe
 Set-Alias v nvim
+
+function nv2 {
+    $env:NVIM_APPNAME="nvim-chad"
+    nvim $args
+}
+
+# Git
+# alias gca="git commit -a -m"
+# alias gp="git push origin HEAD"
+# alias gpu="git pull origin"
+# alias gst="git status"
+# alias gdiff="git diff"
+# alias gco="git checkout"
+# alias gb='git branch'
+# alias gba='git branch -a'
+# alias gadd='git add'
+# alias ga='git add -p'
+# alias gcoall='git checkout -- .'
+# alias gre='git reset'
+
+function gc { git commit -m @args }
+function gh { git log --pretty='%C(Yellow)%h  %C(reset)%ad %C(Cyan)%<(20,trunc)%an %C(reset)%s' --date=format:'%Y-%m-%d %H:%M' @args }
+function glog { git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit @args }
+function gco { git checkout @args }
+function gr { git remote @args }
+
 function er { explorer.exe @args }
 function ll { Get-ChildItem @args }
 function la { Get-ChildItem -Force @args }
@@ -84,7 +110,7 @@ function y {
 
 # Navigation
 function fcd {
-    $dir = fd -t d . | fzf
+    $dir = fd -t d | fzf
     if ($dir) {
         Set-Location $dir
         Get-ChildItem
@@ -92,14 +118,14 @@ function fcd {
 }
 
 function fcf {
-    $file = fd -t f | fzf 
+    $file = fd -t f | fzf
     if ($file) {
         Set-Location (Split-Path -Parent $file)
     }
 }
 
 function fv {
-    $file = fd -t f | fzf
+    $file = fd -H -t f | fzf
     if ($LASTEXITCODE -eq 0 -and $file) {
         nvim $file
     }
