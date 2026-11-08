@@ -1,8 +1,19 @@
+# Toggle startup timing and append one JSON record per load to ~/log_pwsh_loading_time.log.
+$EnablePwshLoadingTimeLog = $true
+
+if ($EnablePwshLoadingTimeLog) {
+    $__pwshLoadingStartedAt = [DateTimeOffset]::UtcNow
+    $__pwshLoadingStart = [System.Diagnostics.Stopwatch]::GetTimestamp()
+}
+
 # Helpers
 function Test-Command($Name) {
     $null -ne (Get-Command $Name -ErrorAction SilentlyContinue)
 }
-# $sw = [System.Diagnostics.Stopwatch]::StartNew()
+if ($EnablePwshLoadingTimeLog) {
+    $__pwshLoadingHelpersEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
+}
+
 # Prompt config
 # if (Test-Command "starship") {
 #     Invoke-Expression (& starship init powershell)
@@ -10,19 +21,24 @@ function Test-Command($Name) {
 Invoke-Expression (&starship init powershell)
 # PS does not support right prompt (T_T), therefore using session variable
 $ENV:STARSHIP_CONFIG = "$HOME\.config\starship\starship_ps.toml"
-# Write-Host ": $($sw.ElapsedMilliseconds)ms - starship"
-# $sw.Restart()
+if ($EnablePwshLoadingTimeLog) {
+    $__pwshLoadingStarshipEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
+}
 
 if (Test-Command "zoxide") {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
+}
+if ($EnablePwshLoadingTimeLog) {
+    $__pwshLoadingZoxideEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
 }
 
 if (Test-Command "atuin") {
     Invoke-Expression (& { (atuin init powershell | Out-String) })
 }
 
-# Write-Host ": $($sw.ElapsedMilliseconds)ms - atuin"
-# $sw.Restart()
+if ($EnablePwshLoadingTimeLog) {
+    $__pwshLoadingAtuinEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
+}
 
 if (Test-Command "fzf") {
     # Import the fzf module
@@ -43,8 +59,9 @@ if (Test-Command "fzf") {
     # Set-PsFzfOption -TabExpansion $true
     Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 }
-# Write-Host ": $($sw.ElapsedMilliseconds)ms - fzf"
-# $sw.Restart()
+if ($EnablePwshLoadingTimeLog) {
+    $__pwshLoadingFzfEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
+}
 
 Set-Alias npp notepad++.exe
 Set-Alias v nvim
@@ -115,5 +132,38 @@ function fnpp {
 function frg {
     Invoke-PsFzfRipgrep
 }
-# Write-Host ": $($sw.ElapsedMilliseconds)ms - alias, fucntion, etc."
-# $sw.Restart()
+if ($EnablePwshLoadingTimeLog) {
+    $__pwshLoadingEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
+
+    # All allocation, formatting and disk I/O happens AFTER the final timestamp.
+    # Measurements include the tiny checkpoint overhead, but exclude log writing
+    # and prompt rendering. No per-stage console output or module autoload for timing.
+    try {
+        $__pwshLoadingMsPerTick = 1000.0 / [System.Diagnostics.Stopwatch]::Frequency
+        $__pwshLoadingRecord = [ordered]@{
+            schema_version = 1
+            started_at_utc = $__pwshLoadingStartedAt.ToString('o')
+            pid = $PID
+            powershell_version = $PSVersionTable.PSVersion.ToString()
+            host_name = $Host.Name
+            cwd = $PWD.Path
+            total_ms = [math]::Round(($__pwshLoadingEnd - $__pwshLoadingStart) * $__pwshLoadingMsPerTick, 3)
+            stages_ms = [ordered]@{
+                helpers = [math]::Round(($__pwshLoadingHelpersEnd - $__pwshLoadingStart) * $__pwshLoadingMsPerTick, 3)
+                starship = [math]::Round(($__pwshLoadingStarshipEnd - $__pwshLoadingHelpersEnd) * $__pwshLoadingMsPerTick, 3)
+                zoxide = [math]::Round(($__pwshLoadingZoxideEnd - $__pwshLoadingStarshipEnd) * $__pwshLoadingMsPerTick, 3)
+                atuin = [math]::Round(($__pwshLoadingAtuinEnd - $__pwshLoadingZoxideEnd) * $__pwshLoadingMsPerTick, 3)
+                fzf = [math]::Round(($__pwshLoadingFzfEnd - $__pwshLoadingAtuinEnd) * $__pwshLoadingMsPerTick, 3)
+                aliases_functions = [math]::Round(($__pwshLoadingEnd - $__pwshLoadingFzfEnd) * $__pwshLoadingMsPerTick, 3)
+            }
+        }
+        $__pwshLoadingJson = ConvertTo-Json -InputObject $__pwshLoadingRecord -Depth 3 -Compress
+        Add-Content -LiteralPath (Join-Path $HOME 'log_pwsh_loading_time.log') -Value $__pwshLoadingJson -Encoding utf8 -ErrorAction Stop
+    }
+    catch {
+        Write-Warning "Could not write PowerShell startup timing log: $_"
+    }
+    finally {
+        Remove-Variable -Name '__pwshLoading*' -ErrorAction SilentlyContinue
+    }
+}
