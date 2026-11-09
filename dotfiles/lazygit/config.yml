@@ -2,6 +2,11 @@ git:
   autoFetch: false
 # gui:
   # screenMode: "half"
+gui:
+  theme:
+    activeBorderColor:
+      - "#fab387"
+      - bold
 os:
   editPreset: 'nvim'
 keybinding:
@@ -59,3 +64,7 @@ customCommands:
         description: "Open all files in commit"
         command: "git diff-tree --no-commit-id --name-only -r -z {{.SelectedCommit.Hash}} | xargs -0 nvim"
         output: terminal
+      - key: "y"
+        context: "commits, subCommits"
+        description: "Copy paths of all changed files"
+        command: "git diff-tree --no-commit-id --name-only -r {{.SelectedCommit.Hash}} | clip.exe"
