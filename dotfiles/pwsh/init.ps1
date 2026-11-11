@@ -25,39 +25,103 @@ if ($EnablePwshLoadingTimeLog) {
     $__pwshLoadingStarshipEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
 }
 
-if (Test-Command "zoxide") {
-    Invoke-Expression (& { (zoxide init powershell | Out-String) })
+# Load zoxide on the first jump. Its directory tracking starts at that point.
+$global:__dotfilesZoxideLoaded = $false
+function Initialize-DotfilesZoxide {
+    if ($global:__dotfilesZoxideLoaded) { return $true }
+    try {
+        if (-not (Test-Command 'zoxide')) { throw 'zoxide is not installed.' }
+        $init = zoxide init powershell | Out-String
+        if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($init)) {
+            throw 'zoxide init failed.'
+        }
+        Invoke-Expression $init
+        $global:__dotfilesZoxideLoaded = $true
+        return $true
+    }
+    catch {
+        Write-Warning "Could not initialize zoxide: $_"
+        return $false
+    }
+}
+function z {
+    if (Initialize-DotfilesZoxide) { __zoxide_z @args }
+}
+function zi {
+    if (Initialize-DotfilesZoxide) { __zoxide_zi @args }
 }
 if ($EnablePwshLoadingTimeLog) {
     $__pwshLoadingZoxideEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
 }
 
-if (Test-Command "atuin") {
-    Invoke-Expression (& { (atuin init powershell | Out-String) })
+# Atuin must wrap the FIRST ReadLine to record history from the first command.
+# This defers initialization beyond the profile, not beyond interactive input.
+if ((Test-Command 'atuin') -and -not (Get-Module Atuin)) {
+    $null = Get-Command PSConsoleHostReadLine -ErrorAction Stop
+    # Do not capture our own wrapper if this profile is sourced again before input.
+    if (-not $global:__dotfilesOriginalReadLine) {
+        $global:__dotfilesOriginalReadLine = $function:PSConsoleHostReadLine
+    }
+    function global:PSConsoleHostReadLine {
+        $lastNativeExitCode = $global:LASTEXITCODE
+        # Restore the original before Atuin captures it, avoiding recursion.
+        $function:global:PSConsoleHostReadLine = $global:__dotfilesOriginalReadLine
+        try {
+            $init = atuin init powershell | Out-String
+            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($init)) {
+                throw 'atuin init failed.'
+            }
+            Invoke-Expression $init
+        }
+        catch {
+            Write-Warning "Could not initialize Atuin; using the standard line reader: $_"
+        }
+        finally {
+            $global:LASTEXITCODE = $lastNativeExitCode
+        }
+        & $function:PSConsoleHostReadLine
+    }
 }
 
 if ($EnablePwshLoadingTimeLog) {
     $__pwshLoadingAtuinEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
 }
 
-if (Test-Command "fzf") {
-    # Import the fzf module
-    Import-Module PSFzf
+# Environment settings are cheap; defer PSFzf itself until a key or frg is used.
+$env:FZF_DEFAULT_OPTS = "--layout=reverse --height 40% --border"
+$env:FZF_DEFAULT_COMMAND = 'fd --type f --hidden -I --follow --exclude .git'
+$env:FZF_CTRL_T_COMMAND = $env:FZF_DEFAULT_COMMAND
+$env:FZF_ALT_C_COMMAND = 'fd --type d --hidden --follow --exclude .git'
+$global:__dotfilesPSFzfLoaded = $false
 
-    # Optional: Set default options (like layout, colors, or border)
-    $env:FZF_DEFAULT_OPTS = "--layout=reverse --height 40% --border"
-
-    # Tells fzf to use fd by default for files
-    $env:FZF_DEFAULT_COMMAND = 'fd --type f --hidden -I --follow --exclude .git'
-
-    # Applies the same lightning-fast fd behavior specifically to Ctrl+T
-    $env:FZF_CTRL_T_COMMAND = $env:FZF_DEFAULT_COMMAND
-
-    # Tells fzf what to use when looking for folders (Alt+C)
-    $env:FZF_ALT_C_COMMAND = 'fd --type d --hidden --follow --exclude .git'
-
-    # Set-PsFzfOption -TabExpansion $true
-    Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+function Initialize-DotfilesPSFzf {
+    if ($global:__dotfilesPSFzfLoaded) { return $true }
+    try {
+        if (-not (Test-Command 'fzf')) { throw 'fzf is not installed.' }
+        # Explicit chords replace the lazy handlers. Leave Ctrl+r to Atuin.
+        # Global import keeps commands available after this function returns.
+        Import-Module PSFzf -Global -ArgumentList @('Ctrl+t', '', 'Alt+c', 'Alt+a') -ErrorAction Stop
+        Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+        $global:__dotfilesPSFzfLoaded = $true
+        return $true
+    }
+    catch {
+        Write-Warning "Could not initialize PSFzf: $_"
+        return $false
+    }
+}
+Set-PSReadLineKeyHandler -Key Tab -ScriptBlock {
+    if (Initialize-DotfilesPSFzf) { Invoke-FzfTabCompletion }
+    else { [Microsoft.PowerShell.PSConsoleReadLine]::TabCompleteNext() }
+}
+Set-PSReadLineKeyHandler -Key 'Ctrl+t' -ScriptBlock {
+    if (Initialize-DotfilesPSFzf) { Invoke-FzfPsReadlineHandlerProvider }
+}
+Set-PSReadLineKeyHandler -Key 'Alt+c' -ScriptBlock {
+    if (Initialize-DotfilesPSFzf) { Invoke-FzfPsReadlineHandlerSetLocation }
+}
+Set-PSReadLineKeyHandler -Key 'Alt+a' -ScriptBlock {
+    if (Initialize-DotfilesPSFzf) { Invoke-FzfPsReadlineHandlerHistoryArgs }
 }
 if ($EnablePwshLoadingTimeLog) {
     $__pwshLoadingFzfEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
@@ -156,7 +220,7 @@ function fnpp {
 }
 
 function frg {
-    Invoke-PsFzfRipgrep
+    if (Initialize-DotfilesPSFzf) { Invoke-PsFzfRipgrep @args }
 }
 if ($EnablePwshLoadingTimeLog) {
     $__pwshLoadingEnd = [System.Diagnostics.Stopwatch]::GetTimestamp()
@@ -168,6 +232,8 @@ if ($EnablePwshLoadingTimeLog) {
         $__pwshLoadingMsPerTick = 1000.0 / [System.Diagnostics.Stopwatch]::Frequency
         $__pwshLoadingRecord = [ordered]@{
             schema_version = 1
+            # Stage timings below measure lazy-loader setup, not first-use work.
+            loading_mode = 'lazy-zoxide-atuin-fzf-v1'
             started_at_utc = $__pwshLoadingStartedAt.ToString('o')
             pid = $PID
             powershell_version = $PSVersionTable.PSVersion.ToString()
